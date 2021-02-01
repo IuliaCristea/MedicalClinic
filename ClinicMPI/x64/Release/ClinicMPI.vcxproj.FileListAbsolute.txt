@@ -1,0 +1,4 @@
+E:\Facultate\PPC\ClinicMPI\ClinicMPI\x64\Release\ClinicMPI.vcxprojAssemblyReference.cache
+E:\Facultate\PPC\ClinicMPI\ClinicMPI\x64\Release\ClinicMPI.PatientForm.resources
+E:\Facultate\PPC\ClinicMPI\ClinicMPI\x64\Release\ClinicMPI.vcxproj.GenerateResource.cache
+E:\Facultate\PPC\ClinicMPI\ClinicMPI\x64\Release\ClinicMPI.MenuForm.resources
