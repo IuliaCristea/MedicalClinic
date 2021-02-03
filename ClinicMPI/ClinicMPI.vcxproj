@@ -120,6 +120,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Helper.cpp" />
     <ClCompile Include="MainProcess.cpp" />
     <ClCompile Include="MedicalSystemMainProgram.cpp" />
     <ClCompile Include="MenuForm.cpp" />

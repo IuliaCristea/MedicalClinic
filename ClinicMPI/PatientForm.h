@@ -199,7 +199,6 @@ namespace ClinicMPI {
 	#pragma endregion
 		private: System::Void buttonSubmitPatient_Click(System::Object^ sender, System::EventArgs^ e) {
 
-			WriteToFile(string("PATIENT CLICK"));
 			int numprocs;
 			MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
 
@@ -219,15 +218,14 @@ namespace ClinicMPI {
 			int numberOfProcessesStarted = 0;
 			
 			//MPI_Request rOption, rName, rGender, rAddress, rCnp;
-			
+			int numprocsCpy = numprocs - 1;
 			for(int processId = 1; processId <= numprocs - 1; processId++)
 			{
 				numberOfProcessesStarted++;
 				
-				int numberOf_SimulatedPatients_ForProcess = (numberOf_SimulatedPatients / (numprocs - 1)) + numberOf_SimulatedPatients % (numprocs - 1);
+				int numberOf_SimulatedPatients_ForProcess = (numberOf_SimulatedPatients / (numprocsCpy)) + numberOf_SimulatedPatients % (numprocsCpy);
 				WriteToFile(string("numberOf_SimulatedPatients_ForProcess: " + to_string(numberOf_SimulatedPatients_ForProcess)));
 
-				WriteToFile(string("Before send - in for;"));
 				int option = 1;
 				char name[1000], address[1000], cnp[1000];
 
@@ -235,7 +233,6 @@ namespace ClinicMPI {
 				sprintf(address, "%s", textboxAddress);
 				sprintf(cnp, "%s", textboxCNP);
 
-				WriteToFile(string("Hello FROM WORKER - BEFORE First ISend"));
 
 				MPI_Isend(&option, 1, MPI_INT, processId, 0, MPI_COMM_WORLD, &reqs[++requestNumber]);
 
@@ -247,7 +244,7 @@ namespace ClinicMPI {
 				MPI_Isend(&numberOf_SimulatedPatients_ForProcess, 1, MPI_INT, processId, 5, MPI_COMM_WORLD, &reqs[++requestNumber]);
 				
 				numberOf_SimulatedPatients -= numberOf_SimulatedPatients_ForProcess;
-
+				numprocsCpy--;
 
 				//MPI_Irecv(&buf[++recvCalls], 1, MPI_INT, processId, 80, MPI_COMM_WORLD, &reqs[++requestNumber]);
 				/*MPI_Recv(&buf[++recvCalls], 1, MPI_INT, processId, 4444, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
@@ -271,27 +268,23 @@ namespace ClinicMPI {
 			MPI_Wait(&rCnp, &status);*/
 
 			WriteToFile("MPI_Waitall - REQUEST NUMBER IS: " + string(to_string(requestNumber)));
-			MPI_Waitall(requestNumber, reqs, stats);
+		//	MPI_Waitall(requestNumber, reqs, stats);
 			
 			int success = 0;
 			// Get result from processes
 			for(int i = 1; i <= numberOfProcessesStarted; i++)
 			{
-				MPI_Recv(&buf[numberOfProcessesStarted], 1, MPI_INT, i, 4444, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+				int res = 0;
+				MPI_Recv(&res, 1, MPI_INT, i, 4444, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
-				WriteToFile("requestNumber after " + to_string(i) + " send and recv:" + string(to_string(requestNumber)));
-				WriteToFile("buf["+ to_string(i) + "]" + string(to_string(buf[i])));
+				//WriteToFile("requestNumberrequestNumber after " + to_string(i) + " send and recv:" + string(to_string(requestNumber)));
+				//WriteToFile("buf["+ to_string(i) + "]" + string(to_string(buf[i])));
 
-				if (buf[i] == 1)
-					success = 1;
-				else
-				{
-					success = 0;
-					break;
-				}			
+				if (res == 1)
+					success++;
 			}
 
-			if (success == 1)
+			if (success == numprocs - 1)
 			{
 				MessageBox::Show("Successfully inserted patient");
 			}

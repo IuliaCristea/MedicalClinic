@@ -45,7 +45,7 @@ void PatientWorker::Run()
 			// spawn new thread that calls foo()
 			for (int i = 1; i <= numberOfPatientsToAdd; i++)
 			{
-				DoStuff;
+				DoStuff();
 			}
 
 			done = Insert(name, std::to_string(gender), address, cnp, numberOfPatientsToAdd);
@@ -65,16 +65,7 @@ bool PatientWorker::Insert(string name, string gender, string address, string cn
 	srand((int)time(0));
 	cnp = cnp + to_string(rand() % 1000);
 	
-	HANDLE hOpen = OpenMutex(MUTEX_ALL_ACCESS,FALSE,TEXT("FDBMutexName1"));
-	if (hOpen == NULL)
-	{
-		WriteToFile("OpenMutex error!!: %d " + std::to_string(GetLastError()));
-		return false;
-	}	
-	else
-		WriteToFile(string("OpenMutex successfully"));
-	
-	WaitForSingleObject(hOpen, INFINITE);
+
 	bool isSuccessful = false;
 	
 	MYSQL* conn;
@@ -82,7 +73,22 @@ bool PatientWorker::Insert(string name, string gender, string address, string cn
 	MYSQL_RES* res;
 	conn = mysql_init(0);
 
-	conn = mysql_real_connect(conn, "localhost", "root", "44880", "medicalclinic", 3306, NULL, 0);
+	conn = mysql_real_connect(conn, "localhost", "root", "resforever123!", "medicalclinic", 3306, NULL, 0);
+
+
+
+	HANDLE hOpen = OpenMutex(MUTEX_ALL_ACCESS, FALSE, TEXT("FDBMutexName2"));
+	if (hOpen == NULL)
+	{
+		WriteToFile("OpenMutex error!!: %d " + std::to_string(GetLastError()));
+		return false;
+	}
+	else
+		WriteToFile(string("OpenMutex successfully"));
+
+	WaitForSingleObject(hOpen, INFINITE);
+
+	WriteToFile(string("MUTEX AQUIRED"));
 
 
 	if (conn) {
@@ -93,11 +99,14 @@ bool PatientWorker::Insert(string name, string gender, string address, string cn
 
 		for(int i = 1; i <= numberOfPatientsToAdd; i++)
 		{			
+
+
+			WriteToFile(string("Execute INSERT"));
 			sprintf_s(buffer, "insert into patient (name, gender, address, cnp) values ('%s', '%s', '%s', '%s')", 
 				name.c_str() + to_string(i), gender.c_str() + to_string(i), address.c_str() + to_string(i), cnp.c_str() + to_string(i) + "_" + to_string(GetProcessRank()));
 			qstate = mysql_query(conn, buffer);
 			
-			//WriteToFile(string("qstate: " + to_string(qstate) + " --  i= " + to_string(i)));
+			
 
 			if (!qstate)
 			{
@@ -111,8 +120,9 @@ bool PatientWorker::Insert(string name, string gender, string address, string cn
 		}
 	}
 
-	WriteToFile(string("Before release mutex!"));
+	WriteToFile(string("Release mutex!"));
 	ReleaseMutex(hOpen);
+	WriteToFile(string("Close Handle"));
 	CloseHandle(hOpen);
 	
 	return isSuccessful;

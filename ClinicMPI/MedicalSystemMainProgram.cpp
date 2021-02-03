@@ -18,39 +18,70 @@ using namespace System::Windows::Forms;
 [STAThread]
 int main()
 {
-	
-	HANDLE  ghMutex = NULL;
-	ghMutex = CreateMutex(
-		NULL,
-		FALSE,
-		TEXT("FDBMutexName1"));
+	HANDLE  ghMutex, ghMutex2;
 
 	MPI_Init(NULL, NULL);
 
-	if (ghMutex == NULL)
-	{
-		WriteToFile(string("failed to create DBMutex, end process"));
-		return 1;
-	}
-	else
-	{
-		WriteToFile(string("ok create DBMutex"));
-	}
-	
 	int rank, numprocs;
 	MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
-	/*if (numprocs != 6)
-	{
-		std::cout << "Wrong number of procs";
-
-		CloseHandle(ghMutex);
-		return 1;
-	}*/
 
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
 		if (rank == 0)
 		{			
+			ghMutex = NULL;
+			ghMutex = CreateMutex(
+				NULL,
+				FALSE,
+				TEXT("FDBMutexName2"));
+
+
+			if (ghMutex == NULL)
+			{
+				std::ofstream file;
+				file.open("test.txt", std::ios::app);
+				std::string str = CurrentDateTime() + ": Mutex Creation Failed- DB" + "\n----------------------\n";
+				file << str;
+
+				return 1;
+			}
+			else
+			{
+				std::ofstream file;
+				file.open("test.txt", std::ios::app);
+				std::string str = CurrentDateTime() + ":Mutex Successfully Created- DB" + "\n----------------------\n";
+				file << str;
+			}
+
+
+	
+			ghMutex2 = CreateMutex(
+				NULL,
+				FALSE,
+				TEXT("WriteFileMutex1"));
+
+			if (ghMutex2 == NULL)
+			{
+				std::ofstream file;
+				file.open("test.txt", std::ios::app);
+				std::string str = CurrentDateTime() + ": Mutex Creation failed - WriteFileMutex" + "\n----------------------\n";
+				file << str;
+
+				return 1;
+			}
+			else
+			{
+				std::ofstream file;
+				file.open("test.txt", std::ios::app);
+				std::string str = CurrentDateTime() + ":Mutex Successfuly Created- WriteFileMutex" + "\n----------------------\n";
+				file << str;
+			}
+
+
+
+
+
+
 			MainProcess proc;
 			proc.Run();
 			//std::cout << "MAIN";
@@ -61,8 +92,7 @@ int main()
 		}
 		else
 		{
-			WriteToFile(string("Before start patient worker"));
-			
+	
 			PatientWorker worker;
 			worker.Run();
 		}
@@ -70,6 +100,10 @@ int main()
 
 	MPI_Finalize();
 	if (ghMutex != NULL)
+	{
+		CloseHandle(ghMutex);
+	}
+	if (ghMutex2 != NULL)
 	{
 		CloseHandle(ghMutex);
 	}

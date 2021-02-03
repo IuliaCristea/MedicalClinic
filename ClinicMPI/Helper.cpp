@@ -1,6 +1,8 @@
 #include "Helper.h"
 
 #include <mpi.h>
+#include <Windows.h>
+#include <string.h>
 
 const std::string CurrentDateTime() {
 	time_t     now = time(0);
@@ -24,10 +26,18 @@ int GetProcessRank()
 
 // TODO - make async
 void WriteToFile(std::string& message) {
+
+	HANDLE hOpen = OpenMutex(MUTEX_ALL_ACCESS, FALSE, TEXT("WriteFileMutex1"));
+
+	WaitForSingleObject(hOpen, INFINITE);
+
 	std::ofstream file;
 	file.open("test.txt", std::ios::app);
 	std::string str = CurrentDateTime() + ": " + std::to_string(GetProcessRank()) + " " + message + "\n----------------------\n";
 	file << str;
+
+	ReleaseMutex(hOpen);
+	CloseHandle(hOpen);
 }
 
 
