@@ -15,7 +15,7 @@ class PatientWorker
 
 public:
 	void Run();
-	bool Insert(string name, string gender, string address, string cnp);
+	bool Insert(string name, string gender, string address, string cnp, int &numberOfPatientsToAdd);
 	tuple<int, string, string, string, string> GetByID(int id);
 };
 

@@ -79,9 +79,9 @@ namespace ClinicMPI {
 
 		}
 #pragma endregion
-	private: System::Void buttonAddPatient_Click(System::Object^ sender, System::EventArgs^ e) {
-		ClinicMPI::PatientForm^ form = gcnew  ClinicMPI::PatientForm;
-		form->Show();
-	}
+		private: System::Void buttonAddPatient_Click(System::Object^ sender, System::EventArgs^ e) {
+			ClinicMPI::PatientForm^ form = gcnew  ClinicMPI::PatientForm;
+			form->Show();
+		}	
 	};
 }

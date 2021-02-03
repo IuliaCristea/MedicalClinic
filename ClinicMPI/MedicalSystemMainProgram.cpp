@@ -18,20 +18,25 @@ using namespace System::Windows::Forms;
 [STAThread]
 int main()
 {
-
-	HANDLE  ghMutex = CreateMutex(
+	
+	HANDLE  ghMutex = NULL;
+	ghMutex = CreateMutex(
 		NULL,
 		FALSE,
-		TEXT("DBMutexName"));
-
-	if (ghMutex == NULL)
-	{
-		std::cout << "failed to create DBMutex, end process";
-		return 1;
-	}
+		TEXT("FDBMutexName1"));
 
 	MPI_Init(NULL, NULL);
 
+	if (ghMutex == NULL)
+	{
+		WriteToFile(string("failed to create DBMutex, end process"));
+		return 1;
+	}
+	else
+	{
+		WriteToFile(string("ok create DBMutex"));
+	}
+	
 	int rank, numprocs;
 	MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
 	/*if (numprocs != 6)
@@ -44,45 +49,28 @@ int main()
 
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-	switch (rank)
-	{
-	case Main:
-	{
-		MainProcess proc;
-		proc.Run();
-		//std::cout << "MAIN";
+		if (rank == 0)
+		{			
+			MainProcess proc;
+			proc.Run();
+			//std::cout << "MAIN";
 
-		/*Application::EnableVisualStyles();
-		Application::SetCompatibleTextRenderingDefault(false);
-		Application::Run(gcnew Program::PatientForm());*/
-		break;
-	}
-	case PatientW:
-	{
-		PatientWorker worker;
-		worker.Run();
-		break;
-	}
-	case DoctorW:
-	{
-		break;
-	}
-	case AppointmentW:
-	{
-		break;
-	}
-	case ClinicW:
-	{
-		break;
-	}
-	case EvaluationW:
-	{
-		break;
-	}
-	default:
-		std::cout << "fail";
-	}
+			/*Application::EnableVisualStyles();
+			Application::SetCompatibleTextRenderingDefault(false);
+			Application::Run(gcnew Program::PatientForm());*/
+		}
+		else
+		{
+			WriteToFile(string("Before start patient worker"));
+			
+			PatientWorker worker;
+			worker.Run();
+		}
+	
 
 	MPI_Finalize();
-	CloseHandle(ghMutex);
+	if (ghMutex != NULL)
+	{
+		CloseHandle(ghMutex);
+	}
 }

@@ -8,11 +8,11 @@
 
 class MainProcess
 {
-public:
-	void Run();
+	public:
+		void Run();
 
-private:
-	void DisplayMenuText();
-	void HandleReadPatient();
+	private:
+		void DisplayMenuText();
+		void HandleReadPatient();
 };
 
