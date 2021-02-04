@@ -73,9 +73,23 @@ namespace ClinicMPI {
 	private: System::Windows::Forms::TextBox^ textBoxPatientName;
 	private: System::Windows::Forms::Label^ labelName;
 	private: System::Windows::Forms::Label^ titleLabel;
-	private: System::Windows::Forms::Label^ label1;
+	private: System::Windows::Forms::Label^ GetPatientTitleLabel;
+
 	private: System::Windows::Forms::Button^ getPatientsButton;
 	private: System::Windows::Forms::RichTextBox^ getPatientsTextBox;
+	private: System::Windows::Forms::Label^ NumberOfPatientsToGetLabel;
+	private: System::Windows::Forms::TextBox^ NumberOfPatientsToGetTextBox;
+
+
+	private: System::Windows::Forms::ContextMenuStrip^ contextMenuStrip1;
+	private: System::Windows::Forms::TextBox^ PatientNameToGetTextBox;
+	private: System::Windows::Forms::Label^ PatientNameToGetLabel;
+	private: System::Windows::Forms::TextBox^ PatientIdToGetTextBox;
+
+	private: System::Windows::Forms::Label^ PatientIdGetLabel;
+
+
+	private: System::ComponentModel::IContainer^ components;
 
 
 	protected:
@@ -85,7 +99,7 @@ namespace ClinicMPI {
 			/// <summary>
 			/// Required designer variable.
 			/// </summary>
-			System::ComponentModel::Container ^components;
+
 
 	#pragma region Windows Form Designer generated code
 			/// <summary>
@@ -94,6 +108,7 @@ namespace ClinicMPI {
 			/// </summary>
 			void InitializeComponent(void)
 			{
+				this->components = (gcnew System::ComponentModel::Container());
 				System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(PatientForm::typeid));
 				this->patientFormTabs = (gcnew System::Windows::Forms::TabControl());
 				this->patientInsertTab = (gcnew System::Windows::Forms::TabPage());
@@ -110,9 +125,16 @@ namespace ClinicMPI {
 				this->labelName = (gcnew System::Windows::Forms::Label());
 				this->titleLabel = (gcnew System::Windows::Forms::Label());
 				this->patientGetTab = (gcnew System::Windows::Forms::TabPage());
+				this->PatientIdToGetTextBox = (gcnew System::Windows::Forms::TextBox());
+				this->PatientIdGetLabel = (gcnew System::Windows::Forms::Label());
+				this->PatientNameToGetTextBox = (gcnew System::Windows::Forms::TextBox());
+				this->PatientNameToGetLabel = (gcnew System::Windows::Forms::Label());
+				this->NumberOfPatientsToGetLabel = (gcnew System::Windows::Forms::Label());
+				this->NumberOfPatientsToGetTextBox = (gcnew System::Windows::Forms::TextBox());
 				this->getPatientsTextBox = (gcnew System::Windows::Forms::RichTextBox());
-				this->label1 = (gcnew System::Windows::Forms::Label());
+				this->GetPatientTitleLabel = (gcnew System::Windows::Forms::Label());
 				this->getPatientsButton = (gcnew System::Windows::Forms::Button());
+				this->contextMenuStrip1 = (gcnew System::Windows::Forms::ContextMenuStrip(this->components));
 				this->patientFormTabs->SuspendLayout();
 				this->patientInsertTab->SuspendLayout();
 				(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
@@ -181,7 +203,7 @@ namespace ClinicMPI {
 				this->buttonSubmitPatient->DialogResult = System::Windows::Forms::DialogResult::OK;
 				this->buttonSubmitPatient->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Regular,
 					System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-				this->buttonSubmitPatient->Location = System::Drawing::Point(388, 486);
+				this->buttonSubmitPatient->Location = System::Drawing::Point(388, 490);
 				this->buttonSubmitPatient->Margin = System::Windows::Forms::Padding(4);
 				this->buttonSubmitPatient->Name = L"buttonSubmitPatient";
 				this->buttonSubmitPatient->Size = System::Drawing::Size(100, 28);
@@ -286,8 +308,14 @@ namespace ClinicMPI {
 				// 
 				this->patientGetTab->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(149)), static_cast<System::Int32>(static_cast<System::Byte>(200)),
 					static_cast<System::Int32>(static_cast<System::Byte>(216)));
+				this->patientGetTab->Controls->Add(this->PatientIdToGetTextBox);
+				this->patientGetTab->Controls->Add(this->PatientIdGetLabel);
+				this->patientGetTab->Controls->Add(this->PatientNameToGetTextBox);
+				this->patientGetTab->Controls->Add(this->PatientNameToGetLabel);
+				this->patientGetTab->Controls->Add(this->NumberOfPatientsToGetLabel);
+				this->patientGetTab->Controls->Add(this->NumberOfPatientsToGetTextBox);
 				this->patientGetTab->Controls->Add(this->getPatientsTextBox);
-				this->patientGetTab->Controls->Add(this->label1);
+				this->patientGetTab->Controls->Add(this->GetPatientTitleLabel);
 				this->patientGetTab->Controls->Add(this->getPatientsButton);
 				this->patientGetTab->Location = System::Drawing::Point(4, 25);
 				this->patientGetTab->Name = L"patientGetTab";
@@ -296,34 +324,96 @@ namespace ClinicMPI {
 				this->patientGetTab->TabIndex = 1;
 				this->patientGetTab->Text = L"Get";
 				// 
+				// PatientIdToGetTextBox
+				// 
+				this->PatientIdToGetTextBox->Location = System::Drawing::Point(258, 81);
+				this->PatientIdToGetTextBox->Name = L"PatientIdToGetTextBox";
+				this->PatientIdToGetTextBox->Size = System::Drawing::Size(235, 22);
+				this->PatientIdToGetTextBox->TabIndex = 8;
+				// 
+				// PatientIdGetLabel
+				// 
+				this->PatientIdGetLabel->AutoSize = true;
+				this->PatientIdGetLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Regular,
+					System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
+				this->PatientIdGetLabel->Location = System::Drawing::Point(43, 84);
+				this->PatientIdGetLabel->Name = L"PatientIdGetLabel";
+				this->PatientIdGetLabel->Size = System::Drawing::Size(83, 20);
+				this->PatientIdGetLabel->TabIndex = 7;
+				this->PatientIdGetLabel->Text = L"Patient ID";
+				// 
+				// PatientNameToGetTextBox
+				// 
+				this->PatientNameToGetTextBox->Location = System::Drawing::Point(258, 118);
+				this->PatientNameToGetTextBox->Name = L"PatientNameToGetTextBox";
+				this->PatientNameToGetTextBox->Size = System::Drawing::Size(235, 22);
+				this->PatientNameToGetTextBox->TabIndex = 6;
+				// 
+				// PatientNameToGetLabel
+				// 
+				this->PatientNameToGetLabel->AutoSize = true;
+				this->PatientNameToGetLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Regular,
+					System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
+				this->PatientNameToGetLabel->Location = System::Drawing::Point(42, 121);
+				this->PatientNameToGetLabel->Name = L"PatientNameToGetLabel";
+				this->PatientNameToGetLabel->Size = System::Drawing::Size(110, 20);
+				this->PatientNameToGetLabel->TabIndex = 5;
+				this->PatientNameToGetLabel->Text = L"Patient Name";
+				// 
+				// NumberOfPatientsToGetLabel
+				// 
+				this->NumberOfPatientsToGetLabel->AutoSize = true;
+				this->NumberOfPatientsToGetLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Regular,
+					System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
+				this->NumberOfPatientsToGetLabel->Location = System::Drawing::Point(42, 159);
+				this->NumberOfPatientsToGetLabel->Name = L"NumberOfPatientsToGetLabel";
+				this->NumberOfPatientsToGetLabel->Size = System::Drawing::Size(151, 20);
+				this->NumberOfPatientsToGetLabel->TabIndex = 4;
+				this->NumberOfPatientsToGetLabel->Text = L"Number of patients";
+				// 
+				// NumberOfPatientsToGetTextBox
+				// 
+				this->NumberOfPatientsToGetTextBox->Location = System::Drawing::Point(258, 156);
+				this->NumberOfPatientsToGetTextBox->Name = L"NumberOfPatientsToGetTextBox";
+				this->NumberOfPatientsToGetTextBox->Size = System::Drawing::Size(235, 22);
+				this->NumberOfPatientsToGetTextBox->TabIndex = 3;
+				// 
 				// getPatientsTextBox
 				// 
-				this->getPatientsTextBox->Location = System::Drawing::Point(46, 173);
+				this->getPatientsTextBox->Location = System::Drawing::Point(42, 203);
 				this->getPatientsTextBox->Name = L"getPatientsTextBox";
-				this->getPatientsTextBox->Size = System::Drawing::Size(464, 232);
+				this->getPatientsTextBox->Size = System::Drawing::Size(464, 260);
 				this->getPatientsTextBox->TabIndex = 2;
 				this->getPatientsTextBox->Text = L"";
 				// 
-				// label1
+				// GetPatientTitleLabel
 				// 
-				this->label1->AutoSize = true;
-				this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				this->GetPatientTitleLabel->AutoSize = true;
+				this->GetPatientTitleLabel->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 					static_cast<System::Byte>(0)));
-				this->label1->Location = System::Drawing::Point(195, 44);
-				this->label1->Name = L"label1";
-				this->label1->Size = System::Drawing::Size(90, 25);
-				this->label1->TabIndex = 1;
-				this->label1->Text = L"Patients";
+				this->GetPatientTitleLabel->Location = System::Drawing::Point(200, 14);
+				this->GetPatientTitleLabel->Name = L"GetPatientTitleLabel";
+				this->GetPatientTitleLabel->Size = System::Drawing::Size(130, 25);
+				this->GetPatientTitleLabel->TabIndex = 1;
+				this->GetPatientTitleLabel->Text = L"Get Patients";
 				// 
 				// getPatientsButton
 				// 
-				this->getPatientsButton->Location = System::Drawing::Point(143, 107);
+				this->getPatientsButton->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Regular,
+					System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
+				this->getPatientsButton->Location = System::Drawing::Point(376, 489);
 				this->getPatientsButton->Name = L"getPatientsButton";
-				this->getPatientsButton->Size = System::Drawing::Size(198, 28);
+				this->getPatientsButton->Size = System::Drawing::Size(130, 28);
 				this->getPatientsButton->TabIndex = 0;
 				this->getPatientsButton->Text = L"Get Patients";
 				this->getPatientsButton->UseVisualStyleBackColor = true;
 				this->getPatientsButton->Click += gcnew System::EventHandler(this, &PatientForm::getPatientsButton_Click);
+				// 
+				// contextMenuStrip1
+				// 
+				this->contextMenuStrip1->ImageScalingSize = System::Drawing::Size(20, 20);
+				this->contextMenuStrip1->Name = L"contextMenuStrip1";
+				this->contextMenuStrip1->Size = System::Drawing::Size(61, 4);
 				// 
 				// PatientForm
 				// 
@@ -352,11 +442,28 @@ namespace ClinicMPI {
 			MPI_Comm_size(MPI_COMM_WORLD, &numprocs);
 		
 			String^ textboxName = textBoxPatientName->Text;
+			if (textboxName->Length <= 0)
+			{
+				return;
+			}
+			if (textBoxNumberOfPatients->Text->Length <= 0)
+			{
+				textBoxNumberOfPatients->Text = "1";
+			}
 			int numberOfPatientsToSimulate = int::Parse(textBoxNumberOfPatients->Text);
 			WriteToFile("numberOfPatientsToSimulate !!! ----------------------  " + string(to_string(numberOfPatientsToSimulate)));
 
 			String^ textboxAddress = textBoxPatientAddress->Text;
+			if (textboxAddress->Length <= 0)
+			{
+				return;
+			}
+			
 			String^ textboxCNP = textBoxPatientCNP->Text;
+			if (textboxCNP->Length <= 0)
+			{
+				return;
+			}
 					
 			MPI_Status stats[100];
 			MPI_Request reqs[100];
@@ -412,21 +519,38 @@ namespace ClinicMPI {
 			}
 		}
 	private: System::Void getPatientsButton_Click(System::Object^ sender, System::EventArgs^ e) {
-		int number = 1;
-		int option = GetMultiple;
-		char result[10000] = "";
+		if (NumberOfPatientsToGetTextBox->Text->Length <= 0)
+			NumberOfPatientsToGetTextBox->Text = "0";
+
+		int option = GetMultiple;	
+		int numberOfPatientsToGet = int::Parse(NumberOfPatientsToGetTextBox->Text);
+		String^ textboxId = PatientIdToGetTextBox->Text;
+		String^ textboxName = PatientNameToGetTextBox->Text;
+		char result[40000] = "", name[100], id[100];
+		sprintf(name, "%s", textboxName);
+		sprintf(id, "%s", textboxId);
+
+		/*stringstream resultStringStream;
+		resultStringStream << id;
+		WriteToFile(string("ID ==== ") + resultStringStream.str());*/
 		MPI_Status stats[10];
 		MPI_Request reqs[10];
 
-		MPI_Isend(&option, 1, MPI_INT, 1, 0, MPI_COMM_WORLD, &reqs[0]);
-		MPI_Isend(&number, 1, MPI_INT, 1, 1, MPI_COMM_WORLD, &reqs[1]);
-		MPI_Waitall(2, reqs, stats);
 
-		MPI_Recv(result, 10000, MPI_CHAR, 1, 2, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+		MPI_Isend(&option, 1, MPI_INT, 1, 0, MPI_COMM_WORLD, &reqs[0]);
+		MPI_Isend(&numberOfPatientsToGet, 1, MPI_INT, 1, 1, MPI_COMM_WORLD, &reqs[1]);
+		MPI_Isend(name, sizeof(name), MPI_CHAR, 1, 2, MPI_COMM_WORLD, &reqs[2]);
+		MPI_Isend(id, sizeof(id), MPI_CHAR, 1, 3, MPI_COMM_WORLD, &reqs[3]);
+		
+		MPI_Waitall(4, reqs, stats);
+
+		MPI_Recv(result, 40000, MPI_CHAR, 1, 4, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
 		int a_size = sizeof(result) / sizeof(char);
 		String^ rez = gcnew String(convertToString(result, a_size).c_str());
-		getPatientsTextBox->Text = rez;
+
+		String^ header = "ID\tName\tGender\tAddress\tCNP\n";
+		getPatientsTextBox->Text = header + rez;
 	}
 
 	   string convertToString(char* a, int size)

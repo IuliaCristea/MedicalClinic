@@ -68,7 +68,7 @@ namespace ClinicMPI {
 			this->buttonAddPatient->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.2F, System::Drawing::FontStyle::Regular,
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
 			this->buttonAddPatient->Location = System::Drawing::Point(158, 251);
-			this->buttonAddPatient->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
+			this->buttonAddPatient->Margin = System::Windows::Forms::Padding(4);
 			this->buttonAddPatient->Name = L"buttonAddPatient";
 			this->buttonAddPatient->Size = System::Drawing::Size(164, 31);
 			this->buttonAddPatient->TabIndex = 0;
@@ -90,7 +90,7 @@ namespace ClinicMPI {
 			// pictureBox1
 			// 
 			this->pictureBox1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox1.Image")));
-			this->pictureBox1->Location = System::Drawing::Point(132, 58);
+			this->pictureBox1->Location = System::Drawing::Point(132, 65);
 			this->pictureBox1->Name = L"pictureBox1";
 			this->pictureBox1->Size = System::Drawing::Size(218, 138);
 			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
@@ -121,7 +121,7 @@ namespace ClinicMPI {
 			this->Controls->Add(this->pictureBox1);
 			this->Controls->Add(this->mainFormTitleLabel);
 			this->Controls->Add(this->buttonAddPatient);
-			this->Margin = System::Windows::Forms::Padding(4, 4, 4, 4);
+			this->Margin = System::Windows::Forms::Padding(4);
 			this->Name = L"MenuForm";
 			this->Text = L"MenuForm";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();

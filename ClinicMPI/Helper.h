@@ -24,7 +24,7 @@ enum PatientOptions
 {
 	InsertMultiple,
 	GetMultiple,
-	GetById
+	//GetById
 };
 
 int GetProcessRank();

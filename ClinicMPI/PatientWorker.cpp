@@ -55,20 +55,26 @@ void PatientWorker::Run()
 				WriteToFile(string("GET MULTIPLE Case "));
 
 				int numberOfPatientsToGet = 0;
+				char name[100], id[100];
 				MPI_Recv(&numberOfPatientsToGet, 1, MPI_INT, Main, 1, MPI_COMM_WORLD,
 					MPI_STATUS_IGNORE);
 
-				WriteToFile(string("GET MULTIPLE --- Number is " + to_string(10)));
-
-				result = GetPatients(numberOfPatientsToGet);
+				MPI_Recv(name, 100, MPI_CHAR, Main, 2, MPI_COMM_WORLD,
+					MPI_STATUS_IGNORE);
 					
-				MPI_Send(result.c_str(), result.length() + 1,MPI_CHAR, Main, 2, MPI_COMM_WORLD);
+				MPI_Recv(id, 100, MPI_CHAR, Main, 3, MPI_COMM_WORLD,
+					MPI_STATUS_IGNORE);
+
+				result = GetPatients(numberOfPatientsToGet, name, id);
+					
+				MPI_Send(result.c_str(), result.length() + 1,MPI_CHAR, Main, 4, MPI_COMM_WORLD);
+				break;
 			}
-			case GetById:
+			/*case GetById:
 			{
 				WriteToFile(string("GetById Case "));
 				break;
-			}
+			}*/
 			default:
 			{
 				WriteToFile(string("Something Went Wrong = Default Case "));
@@ -78,8 +84,11 @@ void PatientWorker::Run()
 	}
 }
 
-string PatientWorker::GetPatients(int& numberOfPatientsToGet)//, int &numberOfPatientsToAdd)
+string PatientWorker::GetPatients(int& numberOfPatientsToGet, string name, string id)//, int &numberOfPatientsToAdd)
 {
+
+	WriteToFile(string("connnumberOfPatientsToGet " + to_string(numberOfPatientsToGet) + "name " + name + "id " + id));
+
 	MYSQL* conn;
 	MYSQL_ROW row;
 	MYSQL_RES* res;
@@ -103,23 +112,42 @@ string PatientWorker::GetPatients(int& numberOfPatientsToGet)//, int &numberOfPa
 
 	if (conn) {
 
-		char buffer[1000];
+		char query[1000];
 		int qstate, max5Counter = 0;
 		string resultFromGet;
 		stringstream resultStringStream;
 		WriteToFile(string("numberOfPatientsToGet " + to_string(numberOfPatientsToGet)));
 		WriteToFile(string("Execute GET-------------------"));
-		sprintf_s(buffer, "SELECT * FROM patient order by name desc limit 10;");
-		qstate = mysql_query(conn, buffer);
+
+		if((id.length() <= 0 && (name.length() <= 0))) {
+			sprintf_s(query, "SELECT * FROM patient ORDER BY name asc limit %d", numberOfPatientsToGet);
+		}
+		else if (id.length() <= 0)
+		{
+			sprintf_s(query, "SELECT * FROM patient WHERE name LIKE '%%%s%%' ORDER BY name asc limit %d", name, numberOfPatientsToGet);
+		}
+		else if (name.length() <= 0)
+		{
+			sprintf_s(query, "SELECT * FROM patient WHERE patientid LIKE '%%%s%%' ORDER BY name asc limit %d", id, numberOfPatientsToGet);
+		}
+		else
+		{
+			sprintf_s(query, "SELECT * FROM patient WHERE patientid LIKE '%%%s%%' OR name LIKE '%%%s%%' ORDER BY name asc limit %d", id, name, numberOfPatientsToGet);
+		}
+
+		/*resultStringStream << query;
+		WriteToFile(resultStringStream.str());*/
+		qstate = mysql_query(conn, query);
 
 		// If failed, return empty string
 		if (qstate)
-			return "";
+		{
+			WriteToFile(string("exited QSTATE"));
+			return "";			
+		}
 		res = mysql_store_result(conn);
 
-		
-
-		// get the number of the columns
+		// Get the number of the columns
 		int num_fields = mysql_num_fields(res);
 
 		WriteToFile(string("num_fields  " + to_string(num_fields)));
@@ -153,7 +181,7 @@ string PatientWorker::GetPatients(int& numberOfPatientsToGet)//, int &numberOfPa
 		resultStringStream.clear();
 		resultStringStream.str(std::string());
 		
-		WriteToFile(result);
+		WriteToFile(string("result is: " +result));
 		
 		// Clear Results
 		if (res != NULL)
