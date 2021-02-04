@@ -53,8 +53,6 @@ int main()
 				file << str;
 			}
 
-
-	
 			ghMutex2 = CreateMutex(
 				NULL,
 				FALSE,
@@ -77,22 +75,11 @@ int main()
 				file << str;
 			}
 
-
-
-
-
-
 			MainProcess proc;
 			proc.Run();
-			//std::cout << "MAIN";
-
-			/*Application::EnableVisualStyles();
-			Application::SetCompatibleTextRenderingDefault(false);
-			Application::Run(gcnew Program::PatientForm());*/
 		}
 		else
 		{
-	
 			PatientWorker worker;
 			worker.Run();
 		}

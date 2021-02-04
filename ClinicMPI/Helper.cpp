@@ -45,5 +45,5 @@ void WriteToFile(std::string& message) {
 void DoStuff()
 {
 	WriteToFile(std::string("I am doing STUFF"));
-	std::this_thread::sleep_for(std::chrono::milliseconds(250));
+	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 }
