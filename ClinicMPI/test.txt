@@ -1,0 +1,8 @@
+2021-02-05.02:39:43:Mutex Successfully Created- DB
+----------------------
+2021-02-05.02:39:43:Mutex Successfuly Created- WriteFileMutex
+----------------------
+2021-02-05.03:48:50:Mutex Successfully Created- DB
+----------------------
+2021-02-05.03:48:50:Mutex Successfuly Created- WriteFileMutex
+----------------------

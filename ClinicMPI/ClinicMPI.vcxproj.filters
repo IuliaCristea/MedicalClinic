@@ -33,6 +33,18 @@
     <ClCompile Include="Helper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="IAmDoctorForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IAmPatientForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AddDoctorForm1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JeSuisDoctorForm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Helper.h">
@@ -48,6 +60,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MenuForm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IAmDoctorForm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IAmPatientForm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AddDoctorForm1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JeSuisDoctorForm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

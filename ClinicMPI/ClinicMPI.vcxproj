@@ -120,7 +120,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AddDoctorForm1.cpp" />
     <ClCompile Include="Helper.cpp" />
+    <ClCompile Include="IAmDoctorForm.cpp" />
+    <ClCompile Include="IAmPatientForm.cpp" />
+    <ClCompile Include="JeSuisDoctorForm.cpp" />
     <ClCompile Include="MainProcess.cpp" />
     <ClCompile Include="MedicalSystemMainProgram.cpp" />
     <ClCompile Include="MenuForm.cpp" />
@@ -128,7 +132,19 @@
     <ClCompile Include="PatientWorker.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AddDoctorForm1.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="Helper.h" />
+    <ClInclude Include="IAmDoctorForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="IAmPatientForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="JeSuisDoctorForm.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="MainProcess.h" />
     <ClInclude Include="MenuForm.h">
       <FileType>CppForm</FileType>
@@ -139,6 +155,18 @@
     <ClInclude Include="PatientWorker.h" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AddDoctorForm1.resx">
+      <DependentUpon>AddDoctorForm1.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IAmDoctorForm.resx">
+      <DependentUpon>IAmDoctorForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IAmPatientForm.resx">
+      <DependentUpon>IAmPatientForm.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JeSuisDoctorForm.resx">
+      <DependentUpon>JeSuisDoctorForm.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MenuForm.resx">
       <DependentUpon>MenuForm.h</DependentUpon>
     </EmbeddedResource>
